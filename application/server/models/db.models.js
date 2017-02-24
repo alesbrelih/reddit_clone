@@ -4,8 +4,6 @@ const mongoose = require("mongoose");
 const config = require("../config/server.config");
 const userSchema = require("./users/db.users");
 
-
-console.log("connection",config.mongo.connection());
 // connect to db
 mongoose.connect(config.mongo.connection());
 

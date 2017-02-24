@@ -3,27 +3,73 @@ const mongoose = require("mongoose");
 const config = require("../../config/server.config");
 const bcrypt = require("bcrypt");
 
-
+//schema
 var Schema = mongoose.Schema;
 
 //user schema definition
 var userSchema = new Schema({
-    username: {
+    username: { //username
         type: String,
         required:[true, "Username is required!"],
         index: {
             unique:true
         }
     },
-    password: {
+    password: { //pwd hash
         type: String,
         required: [true, "Password is required!"]
     },
-    created: {
+    created: { //acc created date
         type: Date,
         default: Date.now
-    }
+    },
+    deleted: { // flag that shows if deleted
+        type: Boolean,
+        default: false,
+        required: true
+    },
+    _postsIds: [ //all user posts
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "Post"
+        }
+    ],
+    _commentsIds: [ //all user comments
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "Comment"
+        }
+    ]
+
 });
+
+// --- populate functions --- //
+
+//Populate posts
+function populatePosts(next){
+    //user obj ref
+    const self = this;
+
+    self.populate({
+        path: "_postsIds",
+        select: "title content created edited votes"
+    });
+    next();
+}
+
+//populate comments
+function populateComments(next){
+
+    //user obj ref
+    const self = this;
+
+    self.populate({
+        path: "_commentsIds",
+        select: "content votes created edited"
+    });
+
+    next();
+}
 
 //----- HASING PWD BEFORE SAVE ------ //
 
@@ -55,6 +101,19 @@ userSchema.pre("save",true,function(next,done){
     next();
 });
 
+
+// --- PRE FINDS POPULATE --- //
+
+//populate comments
+//true indicates parralel
+userSchema.pre("find",true,populateComments);
+
+//populate posts
+userSchema.pre("find",true,populatePosts);
+
+
+
+// ---- SCHEMA METHODS ---- //
 
 //const method to compare pwd
 userSchema.methods.checkPassword = function(password, next){
