@@ -1,0 +1,4 @@
+node_modules
+application/server/config
+material*
+.[^git]*
