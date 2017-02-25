@@ -30,13 +30,13 @@ const PostSchema = new Schema({
         required: true
     },
     _userId: {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref: "User",
         required: true
     },
     _commentsIds: [
         {
-            type: mongoose.Types.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: "Comment"
         }
     ]
@@ -44,18 +44,18 @@ const PostSchema = new Schema({
 
 
 //extra prefind for user info
-PostSchema.pre("find",true, function(next){
+PostSchema.pre("find", function(next){
 
     //ref to current obj
     const self = this;
     self.populate({ //populate foreign key
-        path:"userId",
-        select:"username created"
+        path:"_userId",
+        select:"username email"
     });
     next(); //go next because parallel
 });
 
-PostSchema.pre("find",true, function(next){
+PostSchema.pre("find", function(next){
 
     //ref to current obj
     const self = this;

@@ -10,7 +10,7 @@ const usersroute = new express.Router();
 usersroute.get("/",function(req,res){
 
     //get only username and created fields
-    User.find(null,"username created",function(err,users){
+    User.find(null,"username created deleted _postsIds _commentsIds",function(err,users){
         //server err
         if(err){
             res.status(500).send(err);
@@ -42,6 +42,7 @@ usersroute.post("/register",function(req,res){
 
     let user = new User({
         username: req.body.username,
+        email: req.body.email,
         password: req.body.password
     });
 

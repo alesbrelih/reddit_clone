@@ -28,14 +28,14 @@ const CommentSchema = new Schema(
             required: true
         },
         _userId: { //user id fk
-            type: mongoose.Types.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: "User",
-            required: true
+            required: [true, "User id is required!"]
         },
-        _post: { //post fk
-            type: mongoose.Types.ObjectId,
+        _postId: { //post fk
+            type: mongoose.Schema.ObjectId,
             ref: "Post",
-            required: true
+            required: [true, "Post id is required!"]
         }
     }
 );
@@ -53,10 +53,29 @@ function populateUser(next){
         select:"username"
     });
 
-    //end parralel
     next();
 }
 
+//populate post info
+function populatePost(next){
+
+    //comment obj ref
+    const self = this;
+
+    self.populate({
+        path:"_postId",
+        select:"title created edited votes"
+    });
+    next();
+}
+
+
+//prefind
+//populate posts
+CommentSchema.pre("find",populatePost);
+
+//populate user
+CommentSchema.pre("find",populateUser);
 
 //export Schema
 module.exports = CommentSchema;

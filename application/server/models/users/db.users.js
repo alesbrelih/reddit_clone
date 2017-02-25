@@ -15,9 +15,17 @@ var userSchema = new Schema({
             unique:true
         }
     },
+    email: {
+        type: String,
+        trim: true,
+        lowercase: true,
+        unique: [true, "Email must be unique!"],
+        required: [true, "Email is required!"],
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+    },
     password: { //pwd hash
         type: String,
-        required: [true, "Password is required!"]
+        required: [true, "Password is required!"],
     },
     created: { //acc created date
         type: Date,
@@ -30,13 +38,13 @@ var userSchema = new Schema({
     },
     _postsIds: [ //all user posts
         {
-            type: mongoose.Types.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: "Post"
         }
     ],
     _commentsIds: [ //all user comments
         {
-            type: mongoose.Types.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: "Comment"
         }
     ]
@@ -106,10 +114,10 @@ userSchema.pre("save",true,function(next,done){
 
 //populate comments
 //true indicates parralel
-userSchema.pre("find",true,populateComments);
+userSchema.pre("find",populateComments);
 
 //populate posts
-userSchema.pre("find",true,populatePosts);
+userSchema.pre("find",populatePosts);
 
 
 
