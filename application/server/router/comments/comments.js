@@ -86,10 +86,8 @@ commentRouter.post("/",function(req,res){
         );
         });
         Promise.all([updateUserPromise,updatePostPromise]).then(function(){
-            CommentDb.findById(comment._id).populate({
-                path:"_postId _userId"
-            }).exec(function(err,commentDb){
-                //err retrieving new data
+            CommentDb.findById(comment._id,function(err,commentDb){
+
                 if(err){
                     resBody.msg = "Comment saved, but error retrieving new data.";
                     resBody.data = err;
@@ -97,11 +95,42 @@ commentRouter.post("/",function(req,res){
                     return;
                 }
 
-                //success
-                resBody.msg = "Success";
-                resBody.data = commentDb;
-                res.status(200).send(commentDb);
+                UserDb.populate(commentDb,{
+                    path: "_userId",
+                    select: "username email"
+                },function(err,comment){
+
+                    PostDb.populate(comment,{
+                        path: "_postId",
+                        select: "title content created"
+                    },function(err,comment){
+                        //success
+                        resBody.msg = "Success";
+                        resBody.data = comment;
+                        res.status(200).send(resBody);
+                    });
+                });
+
+
+
+
             });
+            // .populate({
+            //     path:"_postId _userId"
+            // }).exec(function(err,commentDb){
+            //     //err retrieving new data
+            //     if(err){
+            //         resBody.msg = "Comment saved, but error retrieving new data.";
+            //         resBody.data = err;
+            //         res.status(202).send(resBody);
+            //         return;
+            //     }
+
+            //     //success
+            //     resBody.msg = "Success";
+            //     resBody.data = commentDb;
+            //     res.status(200).send(commentDb);
+            // });
         })
         .catch(function(err){
             if(err){
