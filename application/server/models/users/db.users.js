@@ -36,13 +36,13 @@ var userSchema = new Schema({
         default: false,
         required: true
     },
-    _postsIds: [ //all user posts
+    _posts: [ //all user posts
         {
             type: mongoose.Schema.ObjectId,
             ref: "Post"
         }
     ],
-    _commentsIds: [ //all user comments
+    _comments: [ //all user comments
         {
             type: mongoose.Schema.ObjectId,
             ref: "Comment"
@@ -59,7 +59,7 @@ function populatePosts(next){
     const self = this;
 
     self.populate({
-        path: "_postsIds",
+        path: "_posts",
         select: "title content created edited votes"
     });
     next();
@@ -72,7 +72,7 @@ function populateComments(next){
     const self = this;
 
     self.populate({
-        path: "_commentsIds",
+        path: "_comments",
         select: "content votes created edited"
     });
 

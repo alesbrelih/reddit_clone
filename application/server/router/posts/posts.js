@@ -62,7 +62,7 @@ postRouter.post("/",function(req,res){
         User.findByIdAndUpdate(
             post._userId,
             {
-                $push: { "_postsIds": post._id }
+                $push: { "_posts": post._id }
             },
             function(err){
                 //if err

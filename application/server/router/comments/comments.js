@@ -28,6 +28,7 @@ commentRouter.get("/",function(req,res){
     });
 });
 
+//create new comment
 commentRouter.post("/",function(req,res){
 
     //res body
@@ -48,46 +49,48 @@ commentRouter.post("/",function(req,res){
         _postId: req.body._postId
     });
 
+    //try to save comment
     commentModel.save(function(err,comment){
 
         //update user promise
         const updateUserPromise = new Promise(function(resolve,reject){
             UserDb.findByIdAndUpdate(
-            comment._userId,
+                comment._userId,
                 {
                     $push:{
-                        "_commentsIds":comment._id
+                        "_comments":comment._id
                     }
                 },
-            function(err){
-                if(err){
-                    reject(err);
+                function(err){
+                    if(err){
+                        reject(err);
+                    }
+                    resolve(); //success
                 }
-                resolve(); //success
-            }
-        );
+            );
         });
 
         //update post promise
         const updatePostPromise = new Promise(function(resolve,reject){
             PostDb.findByIdAndUpdate(
-            comment._postId,
+                comment._postId,
                 {
                     $push: {
-                        "_commentsIds":comment._id
+                        "_comments":comment._id
                     }
                 },
-            function(err){
-                if(err){
-                    reject(err);
+                function(err){
+                    if(err){
+                        reject(err);
+                    }
+                    resolve();
                 }
-                resolve();
-            }
-        );
+            );
         });
+        //once both updated returned shrinked data of comment
         Promise.all([updateUserPromise,updatePostPromise]).then(function(){
             CommentDb.findById(comment._id,function(err,commentDb){
-
+                //if err notify user
                 if(err){
                     resBody.msg = "Comment saved, but error retrieving new data.";
                     resBody.data = err;
@@ -109,28 +112,14 @@ commentRouter.post("/",function(req,res){
                         resBody.data = comment;
                         res.status(200).send(resBody);
                     });
+                }).catch(function(err){
+                    //comment got saved but err giving comment data
+                    resBody.msg = "Comment saved, but error retrieving new data.";
+                    resBody.data = err;
+                    res.status(202).send(resBody);
+                    return;
                 });
-
-
-
-
             });
-            // .populate({
-            //     path:"_postId _userId"
-            // }).exec(function(err,commentDb){
-            //     //err retrieving new data
-            //     if(err){
-            //         resBody.msg = "Comment saved, but error retrieving new data.";
-            //         resBody.data = err;
-            //         res.status(202).send(resBody);
-            //         return;
-            //     }
-
-            //     //success
-            //     resBody.msg = "Success";
-            //     resBody.data = commentDb;
-            //     res.status(200).send(commentDb);
-            // });
         })
         .catch(function(err){
             if(err){
@@ -140,10 +129,10 @@ commentRouter.post("/",function(req,res){
                 return;
             }
         });
-
     });
-
 });
+
+//delete a comment
 
 module.exports = commentRouter;
 

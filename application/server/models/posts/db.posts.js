@@ -34,7 +34,7 @@ const PostSchema = new Schema({
         ref: "User",
         required: true
     },
-    _commentsIds: [
+    _comments: [
         {
             type: mongoose.Schema.ObjectId,
             ref: "Comment"
@@ -60,7 +60,7 @@ PostSchema.pre("find", function(next){
     //ref to current obj
     const self = this;
     self.populate({
-        path:"_commentsIds",
+        path:"_comments",
         select:"content created edited"
     });
     next(); //go next because parallel
