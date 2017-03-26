@@ -10,7 +10,8 @@ const usersroute = new express.Router();
 usersroute.get("/",function(req,res){
 
     //get only username and created fields
-    User.find(null,"username created deleted _posts _comments",function(err,users){
+    User.find(null,"username created deleted _redditposts _comments",function(err,users){
+
         //server err
         if(err){
             res.status(500).send(err);
@@ -22,6 +23,7 @@ usersroute.get("/",function(req,res){
             msg: "Success",
             data: users
         };
+
         res.status(200).send(resObject);
 
     });

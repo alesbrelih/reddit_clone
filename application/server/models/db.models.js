@@ -1,5 +1,5 @@
 
-// ---- all models and config file
+//---- all models and config file
 const mongoose = require("mongoose");
 const config = require("../config/server.config");
 const userSchema = require("./users/db.users");

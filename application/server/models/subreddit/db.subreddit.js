@@ -36,7 +36,7 @@ const subredditSchema = new Schema({
     ],
     subscribersNum:{
         type: Number,
-        default: 0, 
+        default: 0,
         required: true
     },
     _subscribers: [
@@ -50,7 +50,7 @@ const subredditSchema = new Schema({
         default: 0,
         required: true
     },
-    _posts:[
+    _redditposts:[
         {
             type: mongoose.Schema.ObjectId,
             ref: "Post"

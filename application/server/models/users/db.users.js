@@ -36,7 +36,7 @@ var userSchema = new Schema({
         default: false,
         required: true
     },
-    _posts: [ //all user posts
+    _redditposts: [ //all user posts
         {
             type: mongoose.Schema.ObjectId,
             ref: "Post"
@@ -59,7 +59,7 @@ function populatePosts(next){
     const self = this;
 
     self.populate({
-        path: "_posts",
+        path: "_redditposts",
         select: "title content created edited votes"
     });
     next();
