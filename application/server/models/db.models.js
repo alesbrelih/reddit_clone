@@ -6,6 +6,9 @@ const userSchema = require("./users/db.users");
 const postSchema = require("./posts/db.posts");
 const commentSchema = require("./comments/db.comments");
 
+const subredditHeader = require("./subreddit/subreddit_header/db.subreddit.header");
+const subreddit = require("./subreddit/db.subreddit");
+
 // connect to db
 mongoose.connect(config.mongo.connection());
 
@@ -17,4 +20,14 @@ mongoose.model("Post",postSchema);
 
 //register comment schema
 mongoose.model("Comment",commentSchema);
+
+// --- subredit section --- //
+
+//register subredit header
+mongoose.model("SubredditHeader", subredditHeader);
+
+//register subreddit
+mongoose.model("Subreddit", subreddit);
+
+// ------------------------ //
 

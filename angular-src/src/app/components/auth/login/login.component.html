@@ -1,0 +1,27 @@
+<div class="login-wrapper">
+  <div class="login-content ">
+    <h3 class="mdl-color--primary"><i class="fa fa-key" aria-hidden="true"></i></h3>
+
+    <form id="login-form" action="#">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="sample3" name="username" [(ngModel)]="username">
+        <label class="mdl-textfield__label" for="username">username</label>
+      </div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="sample3" name="password" [(ngModel)]="password">
+        <label class="mdl-textfield__label" for="password" >password</label>
+      </div>
+
+      <div class="btn-wrapper">
+        <!-- Raised button with ripple -->
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect mdl-color-text--white" (click)="login()">
+          Login
+        </button>
+        <!-- Raised button with ripple -->
+        <a routerLink="/register" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect mdl-color-text--white">
+          Register
+        </a>
+      </div>
+    </form>
+  </div>
+</div>

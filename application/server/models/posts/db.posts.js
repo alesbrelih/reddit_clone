@@ -39,7 +39,11 @@ const PostSchema = new Schema({
             type: mongoose.Schema.ObjectId,
             ref: "Comment"
         }
-    ]
+    ],
+    _subreddit: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Subreddit"
+    }
 });
 
 
@@ -64,6 +68,19 @@ PostSchema.pre("find", function(next){
         select:"content created edited"
     });
     next(); //go next because parallel
+});
+
+//get subreddit title
+PostSchema.pre("find",function(next){
+
+    //ref to current obj
+    const self = this;
+    self.populate({
+        path:"_subreddit",
+        select:"title"
+    });
+    next(); //go next because parallel
+
 });
 
 

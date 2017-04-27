@@ -5,15 +5,19 @@ const models = require("./models/db.models");
 const router = require("./router/router");
 const path = require("path");
 const ejs = require("ejs");
+const cors = require("cors");
 
 const app = express();
+
+//cross origin requests
+app.use(cors());
 
 // handle json in post
 // parse application/json
 app.use(bodyparser.json());
 
 //use routing
-app.use("/api",router);
+app.use("/api/v1",router);
 
 //static
 app.use(express.static(path.join(__dirname+"/public")));

@@ -55,9 +55,31 @@ const subredditSchema = new Schema({
             type: mongoose.Schema.ObjectId,
             ref: "Post"
         }
-    ]
+    ],
+    _header:{
+        type: mongoose.Schema.ObjectId,
+        ref: "SubredditHeader"
+    }
 
 });
+
+//populate comments
+function populateHeader(next){
+
+    //user obj ref
+    const self = this;
+
+    self.populate({
+        path: "_header",
+        select: "bgcolor"
+    });
+
+    next();
+}
+
+//PRE
+subredditSchema.pre("find",populateHeader);
+
 
 //export subreddit schema
 module.exports = subredditSchema;
