@@ -4,12 +4,13 @@ const mongoose = require("mongoose");
 const Router = express.Router;
 const Post = mongoose.model("Post");
 const User = mongoose.model("User");
+const passport = require("passport");
 
 // create post router
 const postRouter = new Router();
 
 //get posts
-postRouter.get("/",function(req,res){
+postRouter.get("/", passport.authenticate("jwt",{ session:false }), function(req,res){
     //res body object
     let resBody = {};
     Post.find(function(err,posts){

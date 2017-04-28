@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
+const jsonwebtoken = require("jsonwebtoken");
+const config = require("../../config/server.config");
 
 
 
@@ -101,11 +103,27 @@ usersroute.post("/login",function(req,res){
                 return;
             }
 
-            //valid login
-            resBody.msg = "Success";
-            resBody.data = user;
-            res.status(200).send(resBody);
+            //generate jwt
+            jsonwebtoken.sign({
+                id:user._id
+            }, config.jwt.secret, {
+                expiresIn: "10h"
+            }, (err, token) => {
 
+                if (err) {
+                    //err sign jwt
+                    resBody.msg = "Error generating JWT.";
+                    resBody.data = err;
+                    res.status(400).send(resBody);
+                    return;
+                }
+
+                //valid login
+                resBody.msg = "Success";
+                resBody.data = user;
+                resBody.jwt = token;
+                res.status(200).send(resBody);
+            });
         });
     });
 });

@@ -6,6 +6,7 @@ const router = require("./router/router");
 const path = require("path");
 const ejs = require("ejs");
 const cors = require("cors");
+const auth = require("./auth/server.auth");
 
 const app = express();
 
@@ -15,6 +16,9 @@ app.use(cors());
 // handle json in post
 // parse application/json
 app.use(bodyparser.json());
+
+//use authentication
+app.use(auth.initialize());
 
 //use routing
 app.use("/api/v1",router);
