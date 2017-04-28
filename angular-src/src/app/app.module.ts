@@ -10,6 +10,9 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 import { HomeComponent } from './components/home/home.component';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MaterialModule } from "./material/material.module";
+import 'hammerjs'; //for angular material
 
 
 @NgModule({
@@ -26,7 +29,8 @@ import { HomeComponent } from './components/home/home.component';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [AuthService],
   bootstrap:[AppComponent]

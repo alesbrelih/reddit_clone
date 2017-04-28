@@ -9,6 +9,9 @@ const commentSchema = require("./comments/db.comments");
 const subredditHeader = require("./subreddit/subreddit_header/db.subreddit.header");
 const subreddit = require("./subreddit/db.subreddit");
 
+//deprecated resolve
+mongoose.Promise = global.Promise;
+
 // connect to db
 mongoose.connect(config.mongo.connection());
 

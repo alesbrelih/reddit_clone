@@ -31,6 +31,14 @@ export class AuthService {
         .catch(this.printErr);
   }
 
+  /**Forgot password */
+  forgotPassword = (emailObj, cb) => {
+    this.http.post(`${AppConstants.API_ENDPOINT}/users/forgotpassword`, emailObj)
+      .toPromise()
+      .then(cb())
+      .catch(this.printErr);
+  }
+
   //sets user if success
   private setUser = (data:Response)=>{
     if(data.status == 200){
@@ -47,5 +55,8 @@ export class AuthService {
     console.log(data);
     this.router.navigate(['/login']);
   }
+  // show success after email sent
+  private showEmailSent = (data) => {
 
+  }
 }
