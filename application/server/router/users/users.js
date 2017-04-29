@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const jsonwebtoken = require("jsonwebtoken");
 const config = require("../../config/server.config");
+const mailer = require("../../mailer/server.mailer");
 
 
 
@@ -126,6 +127,63 @@ usersroute.post("/login",function(req,res){
             });
         });
     });
+});
+
+//recover pwd
+usersroute.post("/recover", function(req,res){
+
+    var resBody = {};
+
+    //no email
+    if (!req.body.email) {
+        resBody.msg = "No email was provided.";
+        res.status(400).send(resBody);
+        return;
+    }
+
+    User.findOne({email:req.body.email}, (err, userDb) => {
+        if(err) {
+            resBody.msg = "Error retrieving data from Db";
+            res.status(500).send(resBody);
+            return;
+        }
+
+        if (userDb == null){
+
+            resBody.msg = "User with provided email doesn't exist.";
+            res.status(400).status(resBody);
+
+        } else {
+            //user found -> send him verified jwt for 10 mins to change
+
+            jsonwebtoken.sign({
+                id : userDb._id
+            }, config.jwt.secret, {
+                expiresIn: "1h" // 1 h valid jwt
+            }, ( err, token ) => {
+                if (err) {
+                    resBody.msg = "Error generating authentication token. Please retry later.";
+                    res.status(500).send(resBody);
+                    return;
+                }
+
+                mailer.sendRecoverPassword(userDb.email,token,(err, info) => {
+                    if (err) {
+                        resBody.msg = "Error sending recover email.";
+                        res.status(500).send(resBody);
+                        return;
+                    }
+
+                    resBody.msg = `Recovery link sent to ${info.accepted}`;
+                    res.status(200).send(resBody);
+                });
+
+            });
+
+        }
+    });
+
+
 });
 
 module.exports = usersroute;

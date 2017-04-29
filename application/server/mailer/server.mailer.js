@@ -1,19 +1,33 @@
-const mailer = require("express-mailer"),
+const nodemailer = require("nodemailer"),
     config = require("../config/server.config");
 
-function setUpMailer(app) {
-    var mailerOpts = {
-        host: config.email.host, // hostname
-        transportMethod: "SMTP", // default is SMTP. Accepts anything that nodemailer accepts
-        auth: {
-            user: config.email.username,
-            pass: config.email.password
-        }
-    };
+let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // use SSL
+    tls: {
+        rejectUnauthorized: false
+    },
+    auth: {
+        user: config.email.username,
+        pass: config.email.password
+    }
+});
 
-    //extend app with mailing options
-    mailer.extend(app, mailerOpts);
+const mailerFunctions = {
+    sendRecoverPassword : (email, jwt, cb) => {
+        const emailObj = {
+            from: "noreply noreply@node-clone",
+            to: email, // list of receivers
+            subject: "Forgot password", // Subject line
+            text: 'Folow',
+            html: `Follow this <a href="http://localhost/forgot-password/${encodeURIComponent(jwt)}">link</a>  to reset your password.`
 
-}
 
-module.exports = setUpMailer;
+        };
+        transporter.sendMail(emailObj, cb);
+    }
+};
+
+
+module.exports = mailerFunctions;

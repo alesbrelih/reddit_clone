@@ -17,9 +17,6 @@ app.use(cors());
 // parse application/json
 app.use(bodyparser.json());
 
-//extend app with mailing
-require("./mailer/server.mailer")(app);
-
 //use authentication
 app.use(auth.initialize());
 
