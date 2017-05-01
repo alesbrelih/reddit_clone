@@ -15,15 +15,20 @@ const appRoutes:Routes = [
         component: LoginComponent
     },
     {
-        path:'register',
-        component: RegisterComponent
-    },
-    {
-        path: 'login',
-        component: LoginComponent
-    },{
-        path: 'forgot-password',
-        component: ForgotPasswordComponent
+        path:'auth',
+        children : [
+            {
+                path:'register',
+                component: RegisterComponent
+            },
+            {
+                path: 'login',
+                component: LoginComponent
+            },{
+                path: 'forgot-password',
+                component: ForgotPasswordComponent
+            }
+        ]
     },
     {
         path: 'home',

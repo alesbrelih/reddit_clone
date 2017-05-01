@@ -31,11 +31,11 @@ export class AuthService {
         .catch(this.printErr);
   }
 
-  /**Forgot password */
-  forgotPassword = (emailObj, cb) => {
-    this.http.post(`${AppConstants.API_ENDPOINT}/users/forgotpassword`, emailObj)
+  /**Recover password */
+  recoverPassword = (emailObj, cb) => {
+    this.http.post(`${AppConstants.API_ENDPOINT}/users/recoverpassword`, emailObj)
       .toPromise()
-      .then(cb())
+      .then(cb)
       .catch(this.printErr);
   }
 

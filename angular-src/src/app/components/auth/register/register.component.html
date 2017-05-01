@@ -1,39 +1,31 @@
 <div class="register-wrapper">
   <div class="register-content">
-    <h3 class="mdl-color--primary"><i class="fa fa-id-card-o" aria-hidden="true"></i></h3>
+    <md-toolbar color="primary">
+      <i class="fa fa-id-card-o" aria-hidden="true"></i>
+    </md-toolbar>
 
     <form id="register-form" [formGroup]="registerForm" (ngSubmit)="register()">
       <fieldset formGroupName="registerInfo">
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input class="mdl-textfield__input" type="text" id="username" formControlName="username">
-          <label class="mdl-textfield__label" for="username">username</label>
-        </div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input class="mdl-textfield__input" type="email" id="email" formControlName="email">
-          <label class="mdl-textfield__label" for="username">email</label>
-        </div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input class="mdl-textfield__input" type="password" id="password" formControlName="password">
-          <label class="mdl-textfield__label" for="password">password</label>
-        </div>
+        <md-input-container>
+          <input mdInput type="text" placeholder="username" class="full-width" formControlName="username" name="" value="">
+        </md-input-container>
+        <md-input-container>
+          <input mdInput type="email" placeholder="email" class="full-width" formControlName="email" name="" value="">
+        </md-input-container>
+        <md-input-container>
+          <input mdInput type="password" placeholder="password" class="full-width" formControlName="password" name="" value="">
+        </md-input-container>
       </fieldset>
+      <md-input-container>
+        <input mdInput type="password" placeholder="confirm" class="full-width" formControlName="confirm" name="" value="">
+      </md-input-container>
 
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <input class="mdl-textfield__input" type="password" id="confirm" formControlName="confirm">
-        <label class="mdl-textfield__label" for="confirm">repeat password</label>
-      </div>
       <div class="btn-wrapper">
-        <!-- Raised button with ripple -->
-        <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect mdl-color-text--white">
-          Register
-        </button>
-        <!-- Raised button with ripple -->
-        <a routerLink="/login" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect mdl-color-text--white">
-          Login
-        </a>
+        <button type="submit" md-raised-button color="primary">Register</button>
+        <a routerLink="/auth/login" md-raised-button color="primary">Login</a>
       </div>
       <p class="forgot-password">
-        <a class="mdl-color-text--accent" routerLink="/forgot-password">forgot password ...</a>
+        <a class="mdl-color-text--accent" routerLink="/auth/forgot-password">forgot password ...</a>
       </p>
     </form>
   </div>

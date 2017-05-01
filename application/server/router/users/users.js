@@ -130,7 +130,7 @@ usersroute.post("/login",function(req,res){
 });
 
 //recover pwd
-usersroute.post("/recover", function(req,res){
+usersroute.post("/recoverpassword", function(req,res){
 
     var resBody = {};
 
