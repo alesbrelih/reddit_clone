@@ -1,3 +1,4 @@
+import { ChangePasswordComponent } from './../components/auth/change-password/change-password.component';
 import { HomeComponent } from './../components/home/home.component';
 import { ForgotPasswordComponent } from './../components/auth/forgot-password/forgot-password.component';
 import { RegisterComponent } from './../components/auth/register/register.component';
@@ -24,9 +25,14 @@ const appRoutes:Routes = [
             {
                 path: 'login',
                 component: LoginComponent
-            },{
+            },
+            {
                 path: 'forgot-password',
                 component: ForgotPasswordComponent
+            },
+            {
+                path: 'change-password/:jwt',
+                component: ChangePasswordComponent
             }
         ]
     },

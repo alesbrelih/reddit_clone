@@ -12,7 +12,8 @@ import { ForgotPasswordComponent } from './components/auth/forgot-password/forgo
 import { HomeComponent } from './components/home/home.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "./material/material.module";
-import 'hammerjs'; //for angular material
+import 'hammerjs';
+import { ChangePasswordComponent } from './components/auth/change-password/change-password.component'; //for angular material
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import 'hammerjs'; //for angular material
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    HomeComponent
+    HomeComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

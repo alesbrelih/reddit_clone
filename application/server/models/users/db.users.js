@@ -87,6 +87,7 @@ userSchema.pre("save",true,function(next,done){
     //reference user model
     const self = this;
 
+    //its gets the generated salt when trying to decode automatically
     bcrypt.genSalt(config.hash.saltFactor,function(err,salt){
 
         //throw err if err
@@ -148,6 +149,32 @@ userSchema.methods.checkPassword = function(password, next){
         }
     });
 
+};
+
+//change password
+userSchema.methods.setPassword = function(password, next) {
+    const self = this;
+
+    //its gets the generated salt when trying to decode automatically
+    bcrypt.genSalt(config.hash.saltFactor,function(err,salt){
+
+        //throw err if err
+        if(err){
+            next(new Error(err));
+        }
+
+        //gen password
+        bcrypt.hash(password,salt,function(err,hash){
+            //if err throw err
+            if(err){
+                next(new Error(err));
+            }
+
+            //save hashed pwd
+            self.password = hash;
+            next(null, self);
+        });
+    });
 };
 
 //export schema

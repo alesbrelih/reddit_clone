@@ -24,8 +24,8 @@ export class AuthService {
   }
 
   /**Tries to login user using provided username and password */
-  login = (username:string, password:string) => {
-    return this.http.post(`${AppConstants.API_ENDPOINT}/users/login`, { 'username': username, 'password':password })
+  login = (userInfoObj:any) => {
+    return this.http.post(`${AppConstants.API_ENDPOINT}/users/login`, userInfoObj)
         .toPromise()
         .then(this.setUser)
         .catch(this.printErr);
@@ -39,6 +39,17 @@ export class AuthService {
       .catch(this.printErr);
   }
 
+  /** Change password */
+  changePassword = (changePwdObj, jwt) => {
+    const jwtHeader = new Headers();
+    jwtHeader.append("Authorization",`JWT ${jwt}`);
+    this.http.post(`${AppConstants.API_ENDPOINT}/users/changepassword`,changePwdObj,{
+      headers:jwtHeader
+    }).toPromise()
+      .then(this.redirectToLogin)
+      .catch(this.printErr);
+  }
+
   //sets user if success
   private setUser = (data:Response)=>{
     if(data.status == 200){
@@ -46,6 +57,7 @@ export class AuthService {
 
       this.router.navigate(['/home']);
     }
+    console.log(data);
   }
   private printErr = (err:Response) => {
     console.log('err', err);
@@ -53,7 +65,7 @@ export class AuthService {
   //redirect to login
   private redirectToLogin = (data) => {
     console.log(data);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
   // show success after email sent
   private showEmailSent = (data) => {

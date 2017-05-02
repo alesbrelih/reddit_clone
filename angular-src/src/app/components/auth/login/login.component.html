@@ -4,7 +4,7 @@
       <i class="fa fa-key" aria-hidden="true"></i>
     </md-toolbar>
 
-    <form id="login-form" action="#" [formGroup]="loginForm">
+    <form id="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
       <md-input-container>
         <input mdInput type="text" placeholder="username" class="full-width" formControlName="username" name="" value="">
       </md-input-container>

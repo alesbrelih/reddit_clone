@@ -21,8 +21,7 @@ const mailerFunctions = {
             to: email, // list of receivers
             subject: "Forgot password", // Subject line
             text: 'Folow',
-            html: `Follow this <a href="http://localhost/auth/forgot-password/${encodeURIComponent(jwt)}">link</a>  to reset your password.`
-
+            html: `Follow this <a href="http://localhost:4200/auth/change-password/${encodeURIComponent(jwt)}">link</a>  to reset your password.`
 
         };
         transporter.sendMail(emailObj, cb);

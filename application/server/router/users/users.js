@@ -4,6 +4,7 @@ const User = mongoose.model("User");
 const jsonwebtoken = require("jsonwebtoken");
 const config = require("../../config/server.config");
 const mailer = require("../../mailer/server.mailer");
+const passport = require("passport");
 
 
 
@@ -182,7 +183,42 @@ usersroute.post("/recoverpassword", function(req,res){
 
         }
     });
+});
 
+//change pwd when recover
+usersroute.post("/changepassword", passport.authenticate("jwt", {session:false}), function(req,res) {
+
+
+    //returned resbody
+    var resBody = {};
+
+    const useremail = req.user.email;
+
+    //missing pwd or jwt
+    if(!req.body.password){
+        resBody.msg = "Missing password.";
+        res.status(404).send(resBody);
+        return;
+    }
+
+    User.findOne({email:useremail}, (err, user) => {
+        if(err) {
+            resBody.msg = err;
+            res.status(500).send(resBody);
+            return;
+        }
+        user.password = req.body.password;
+        user.save((err, updated) => {
+            if(err){
+                resBody.msg = err;
+                res.status(500).send(resBody);
+                return;
+            }
+            resBody.msg = "Password was updates successfully!";
+            resBody.data = updated;
+            res.status(200).send(resBody);
+        });
+    });
 
 });
 
