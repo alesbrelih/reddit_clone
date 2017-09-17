@@ -29,10 +29,10 @@ app.use(express.static(path.join(__dirname+"/public")));
 //views
 app.use("views",express.static(path.join(__dirname,"/public")));
 app.get("/",(req,res) => {
-    res.sendFile("index.html");
+	res.sendFile("index.html");
 });
 app.engine("html", ejs.renderFile);
 
 app.listen(8008,()=>{
-    console.log("express @ 8008");
+	console.log("express @ 8008");
 });

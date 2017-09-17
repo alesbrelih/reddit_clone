@@ -4,6 +4,6 @@ const redditSchema = require("./schema/graphql.schema");
 
 //ker je funkcija eksportana
 module.exports = graphqlHTTP({
-    schema: redditSchema,
-    graphiql: true
+	schema: redditSchema,
+	graphiql: true
 });

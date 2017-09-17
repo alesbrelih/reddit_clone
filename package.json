@@ -4,7 +4,7 @@
   "description": "Reddit clone as MEAN stack.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon application/server/server.js",
+    "start": "nodemon --debug application/server/server.js",
     "test": "test"
   },
   "repository": {
